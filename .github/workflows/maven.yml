@@ -34,16 +34,17 @@ jobs:
          with:
             java-version: ${{ matrix.java }}
       - name: Cache SonarCloud packages
-         uses: actions/cache@v3
-         with:
+        uses: actions/cache@v3
+        with:
            path: ~/.sonar/cache
            key: ${{ runner.os }}-sonar-jdk${{ matrix.java }}
+           restore-keys: ${{ runner.os }}-sonar-
       - name: Cache Maven & SonarCloud packages
         uses: actions/cache@v2
         with:
            path: ~/.m2
            key: ${{ runner.os }}-m2-jdk${{ matrix.java }}-${{ hashFiles('**/pom.xml', '**/*.yml') }}
-           restore-keys: ${{ runner.os }}-m2-
+           restore-keys: ${{ runner.os }}-m2-jdk${{ matrix.java }}-
       -  name: Build with Maven
          run: |
             mvn verify ${{ matrix.additional-maven-args }}
