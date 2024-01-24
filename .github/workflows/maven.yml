@@ -4,8 +4,9 @@ name: Java CI with Maven in Linux
 
 on:
    push:
-   - master
-   - task*
+      branches:
+      - master
+      - task*
    pull_request:
 
 jobs:
@@ -16,12 +17,12 @@ jobs:
       strategy:
          matrix:
             include:
-            # test against several Java versions - Java 17 for Sonar
+# test against several Java versions - Java 17 for Sonar
             -  java: 8
             -  java: 17
                additional-maven-args: >
-                  -Pcoveralls 
-                  -Pmutation-testing  
+                  -Pcoveralls  
+                  -Pmutation-testing   
                   -DpullRequest=${{ github.event.pull_request.number }}}
       name: Build with Java ${{ matrix.java }} on Linux
       steps:
