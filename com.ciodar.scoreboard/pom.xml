@@ -67,6 +67,25 @@
 				</dependency>
 			</dependencies>
 		</plugin>
+		<plugin>
+			<groupId>org.pitest</groupId>
+			<artifactId>pitest-maven</artifactId>
+			<version>1.15.3</version>
+			<configuration>
+				<reportsDirectory>
+					${project.build.directory}/site/pit-reports</reportsDirectory>
+				<sourceDataFormats>
+					<sourceDataFormat>HTML</sourceDataFormat>
+				</sourceDataFormats>
+				<excludedClasses>
+				    <param>com.ciodar.scoreboard.App*</param>
+				</excludedClasses>
+				<mutators>
+					<mutator>DEFAULTS</mutator>
+				</mutators>
+				<mutationThreshold>100</mutationThreshold>
+			</configuration>
+		</plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -102,6 +121,25 @@
 								<goals>
 									<goal>report</goal>
 								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>mutation-testing</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-maven</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>mutationCoverage</goal>
+								</goals>
+								<phase>verify</phase>
 							</execution>
 						</executions>
 					</plugin>
