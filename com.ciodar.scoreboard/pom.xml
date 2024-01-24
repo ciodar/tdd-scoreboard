@@ -71,6 +71,7 @@
     </pluginManagement>
   </build>
   <profiles>
+	  	<!--local coverage-->
 		<profile>
 			<id>jacoco</id>
 			<build>
@@ -79,6 +80,30 @@
 						<!-- configured in pluginManagement -->
 						<groupId>org.jacoco</groupId>
 						<artifactId>jacoco-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<!--remote coverage-->
+		<profile>
+			<id>coveralls</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.eluder.coveralls</groupId>
+						<artifactId>coveralls-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>verify</phase>
+								<goals>
+									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>
