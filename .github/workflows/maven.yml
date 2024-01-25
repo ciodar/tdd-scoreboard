@@ -22,9 +22,8 @@ jobs:
             -  java: 17
                additional-maven-args: >
                   -Pcoveralls  
-                  -Pmutation-testing 
-                  sonar:sonar  
-                  -DpullRequest=${{ github.event.pull_request.number }}}
+                  -Pmutation-testing sonar:sonar  
+                  -DpullRequest=${{ github.event.pull_request.number }}
                   -Dsonar.projectKey=ciodar_tdd-scoreboard
       name: Build with Java ${{ matrix.java }} on Linux
       steps:
@@ -37,10 +36,10 @@ jobs:
         uses: actions/cache@v3
         with:
            path: ~/.sonar/cache
-           key: ${{ runner.os }}-sonar-jdk${{ matrix.java }}
+           key: ${{ runner.os }}-sonar-
            restore-keys: ${{ runner.os }}-sonar-
-      - name: Cache Maven & SonarCloud packages
-        uses: actions/cache@v2
+      - name: Cache Maven packages
+        uses: actions/cache@v3
         with:
            path: ~/.m2
            key: ${{ runner.os }}-m2-jdk${{ matrix.java }}-${{ hashFiles('**/pom.xml', '**/*.yml') }}
