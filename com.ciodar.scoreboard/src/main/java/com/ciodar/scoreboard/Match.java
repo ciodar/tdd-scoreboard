@@ -3,7 +3,11 @@ package com.ciodar.scoreboard;
 public class Match {
 	private int homeScore=0;
 	private int awayScore=0;
-//	getters and setters
+public Match(int homeScore, int awayScore) {
+		this.homeScore = homeScore;
+		this.awayScore = awayScore;
+	}
+	//	getters and setters
 	public int getHomeScore() {
 		return homeScore;
 	}
