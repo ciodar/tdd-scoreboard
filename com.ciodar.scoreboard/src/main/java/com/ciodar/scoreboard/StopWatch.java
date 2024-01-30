@@ -20,7 +20,7 @@ public class StopWatch {
 	public long tick() {
 		long elapsed = clock.currentTimeMillis() - start;
 		if (elapsed < 0)
-			throw new RuntimeException("Unexpected negative elapsed time");
+			throw new IllegalStateException("Unexpected negative elapsed time");
 		if (initialTime - elapsed > 0)
 			return initialTime - elapsed;
 		else
