@@ -24,9 +24,10 @@ public class StopWatch {
 				throw new IllegalStateException("Unexpected negative elapsed time");
 			if (initialTime - elapsed > 0)
 				return initialTime - elapsed;
-			else
+			else {
 				this.running = false;
 				this.initialTime=0;
+			}
 		}
 		return initialTime;
 	}
@@ -41,6 +42,8 @@ public class StopWatch {
 			this.initialTime = this.initialTime - (clock.currentTimeMillis() - start);
 			this.start = clock.currentTimeMillis();
 		}
+		else
+			throw new IllegalStateException("Timer is already stopped");
 	}
 
 }

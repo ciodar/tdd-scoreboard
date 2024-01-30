@@ -50,7 +50,7 @@ public class TimerTest {
 		assertEquals(false, stopWatch.isRunning());
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test(expected = IllegalStateException.class)
 	public void testTimeRunningBackwardsShouldThrow() {
 		long time_passed = -1000L;
 		when(stubClock.currentTimeMillis()).thenReturn(START_TIME + time_passed);
@@ -76,5 +76,12 @@ public class TimerTest {
 		time_passed+= afterStop;
 		when(stubClock.currentTimeMillis()).thenReturn(time_passed);
 		assertEquals(REMAINING - beforeStop,stopWatch.tick());
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testStopTimerWhenTimerNotRunningShouldThrow() {
+		stopWatch.stop();
+		stopWatch.stop();
+		fail();
 	}
 }
