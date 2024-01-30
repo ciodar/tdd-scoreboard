@@ -18,18 +18,29 @@ public class StopWatch {
 	}
 
 	public long tick() {
-		long elapsed = clock.currentTimeMillis() - start;
-		if (elapsed < 0)
-			throw new IllegalStateException("Unexpected negative elapsed time");
-		if (initialTime - elapsed > 0)
-			return initialTime - elapsed;
-		else
-			this.running = false;
-		return 0;
+		if (this.isRunning()) {
+			long elapsed = clock.currentTimeMillis() - start;
+			if (elapsed < 0)
+				throw new IllegalStateException("Unexpected negative elapsed time");
+			if (initialTime - elapsed > 0)
+				return initialTime - elapsed;
+			else
+				this.running = false;
+				this.initialTime=0;
+		}
+		return initialTime;
 	}
 
 	public boolean isRunning() {
 		return running;
+	}
+
+	public void stop() {
+		if (this.isRunning()){
+			this.running=false;
+			this.initialTime = this.initialTime - (clock.currentTimeMillis() - start);
+			this.start = clock.currentTimeMillis();
+		}
 	}
 
 }
