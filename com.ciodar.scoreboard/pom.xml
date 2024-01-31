@@ -51,12 +51,6 @@
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>0.8.11</version>
-					<!-- Excludes main class from coverage -->
-					<configuration>
-						<excludes>
-							<exclude>**/App.*</exclude>
-						</excludes>
-					</configuration>
 					<executions>
 						<execution>
 							<goals>
@@ -88,9 +82,6 @@
 						<sourceDataFormats>
 							<sourceDataFormat>HTML</sourceDataFormat>
 						</sourceDataFormats>
-						<excludedClasses>
-							<param>com.ciodar.scoreboard.App*</param>
-						</excludedClasses>
 						<mutators>
 							<mutator>DEFAULTS</mutator>
 						</mutators>

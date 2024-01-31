@@ -4,46 +4,49 @@ public class StopWatch {
 
 	private Clock clock;
 	private long start;
-	private long initialTime;
+	private long initialMillis;
 	private boolean running;
 
-	public StopWatch(Clock clock, long initialTime) {
+	public StopWatch(Clock clock, long initialMillis) {
 		this.clock = clock;
-		this.initialTime = initialTime;
-	}
-
-	public void start() {
-		this.running = true;
-		this.start = clock.currentTimeMillis();
+		this.running = false;
+		this.initialMillis = initialMillis;
 	}
 
 	public long tick() {
 		if (this.isRunning()) {
 			long elapsed = clock.currentTimeMillis() - start;
+			long remaining = initialMillis - elapsed;
 			if (elapsed < 0)
 				throw new IllegalStateException("Unexpected negative elapsed time");
-			if (initialTime - elapsed > 0)
-				return initialTime - elapsed;
-			else {
+			if (remaining <= 0) {
+				this.initialMillis = 0;
 				this.running = false;
-				this.initialTime=0;
 			}
+			else
+				return remaining;
 		}
-		return initialTime;
+		return initialMillis;
 	}
 
 	public boolean isRunning() {
 		return running;
 	}
-
-	public void stop() {
-		if (this.isRunning()){
-			this.running=false;
-			this.initialTime = this.initialTime - (clock.currentTimeMillis() - start);
-			this.start = clock.currentTimeMillis();
-		}
-		else
-			throw new IllegalStateException("Timer is already stopped");
+	
+	public void start() {
+		if (isRunning())
+			throw new IllegalStateException("Timer already started!");
+		running = true;
+		start = clock.currentTimeMillis();
 	}
 
+	public void stop() {
+		long currentMillis = clock.currentTimeMillis();
+		if (!isRunning())
+			throw new IllegalStateException("Timer already stopped!");
+		else
+			running = false;
+		initialMillis -= (currentMillis - start);
+		start = currentMillis;
+	}
 }
