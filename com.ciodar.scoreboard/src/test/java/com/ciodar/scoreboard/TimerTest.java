@@ -21,13 +21,13 @@ public class TimerTest {
 	}
 
 	@Test
-	public void testStartStopwatchZeroSecondPassedShouldReturnRemaining() {
+	public void testStartStopWatchShouldReturnRemaining() {
 		assertEquals(REMAINING, stopWatch.tick());
 		assertEquals(true, stopWatch.isRunning());
 	}
 
 	@Test
-	public void testStartStopwatchOneSecondPassedShouldDecreaseRemaining() {
+	public void testElapsedTimeShouldDecreaseRemaining() {
 		long time_passed = 1000L;
 		when(stubClock.currentTimeMillis()).thenReturn(START_TIME + time_passed);
 		assertEquals(REMAINING - time_passed, stopWatch.tick());
@@ -35,7 +35,7 @@ public class TimerTest {
 	}
 
 	@Test
-	public void testStartStopwatchTenSecondPassedShouldReturnZero() {
+	public void testElapsedEqualsRemainingShouldStopTimer() {
 		long time_passed = 10000L;
 		when(stubClock.currentTimeMillis()).thenReturn(START_TIME + time_passed);
 		assertEquals(0, stopWatch.tick());
@@ -43,7 +43,7 @@ public class TimerTest {
 	}
 
 	@Test
-	public void testStartStopWatchElevenSecondPassesShouldStopTimer() {
+	public void testElapsedMoreThanRemainingShouldReturnZeroAndStopTimer() {
 		long time_passed = 11000L;
 		when(stubClock.currentTimeMillis()).thenReturn(START_TIME + time_passed);
 		assertEquals(0, stopWatch.tick());
@@ -51,7 +51,7 @@ public class TimerTest {
 	}
 
 	@Test(expected = IllegalStateException.class)
-	public void testTimeRunningBackwardsShouldThrow() {
+	public void testNegativeElapsedTimeShouldThrow() {
 		long time_passed = -1000L;
 		when(stubClock.currentTimeMillis()).thenReturn(START_TIME + time_passed);
 		stopWatch.tick();
@@ -59,7 +59,7 @@ public class TimerTest {
 	}
 	
 	@Test
-	public void testStopTimerShouldNotDecreaseRemainingTime() {
+	public void testTimerStoppedShouldNotDecreaseRemaining() {
 		long time_passed=1000L;
 		stopWatch.stop();
 		when(stubClock.currentTimeMillis()).thenReturn(START_TIME + time_passed);
@@ -67,7 +67,7 @@ public class TimerTest {
 	}
 	
 	@Test
-	public void testStopTimerShouldNotDecreaseAfterStop() {
+	public void testTimerStoppedAfter() {
 		long beforeStop = 1000L;
 		long afterStop = 2000L;
 		long time_passed=START_TIME + beforeStop;
@@ -76,6 +76,13 @@ public class TimerTest {
 		time_passed+= afterStop;
 		when(stubClock.currentTimeMillis()).thenReturn(time_passed);
 		assertEquals(REMAINING - beforeStop,stopWatch.tick());
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testStartTimerWhenAlreadyRunningShouldThrow() {
+		stopWatch.start();
+		stopWatch.start();
+		fail();
 	}
 	
 	@Test(expected = IllegalStateException.class)
